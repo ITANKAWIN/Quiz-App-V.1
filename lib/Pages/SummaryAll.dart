@@ -49,14 +49,6 @@ class _SummaryAllState extends State<SummaryAll> {
                       Column(
                         children: const [
                           Text(
-                            'จำนวนข้อที่ผิด',
-                            style: TextStyle(fontSize: 20.0),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: const [
-                          Text(
                             'เปอร์เซ็น',
                             style: TextStyle(fontSize: 20.0),
                           )

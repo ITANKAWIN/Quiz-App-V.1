@@ -23,8 +23,11 @@ class _SummaryState extends State<Summary> {
       ),
       body: Center(
         child: ListView(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(10),
           children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.all(10),
+            ),
             SizedBox(
               height: 50,
               child: Table(
@@ -42,35 +45,12 @@ class _SummaryState extends State<Summary> {
                         ],
                       ),
                       Column(
-                        children: const [
+                        children: [
                           Text(
-                            'จำนวนข้อที่ถูก',
-                            style: TextStyle(fontSize: 20.0),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: const [
-                          Text(
-                            'จำนวนข้อที่ผิด',
-                            style: TextStyle(fontSize: 20.0),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: const [
-                          Text(
-                            'เปอร์เซ็น',
-                            style: TextStyle(fontSize: 20.0),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: const [
-                          Text(
-                            'เวลาในการทำ',
-                            style: TextStyle(fontSize: 20.0),
-                          )
+                              widget.data.time_stamp
+                                  .toString()
+                                  .substring(0, 19),
+                              style: const TextStyle(fontSize: 16)),
                         ],
                       ),
                     ],
@@ -78,12 +58,11 @@ class _SummaryState extends State<Summary> {
                   TableRow(
                     children: <Widget>[
                       Column(
-                        children: [
+                        children: const [
                           Text(
-                              widget.data.time_stamp
-                                  .toString()
-                                  .substring(0, 19),
-                              style: const TextStyle(fontSize: 16)),
+                            'จำนวนข้อที่ถูก',
+                            style: TextStyle(fontSize: 20.0),
+                          )
                         ],
                       ),
                       Column(
@@ -94,6 +73,18 @@ class _SummaryState extends State<Summary> {
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                  TableRow(
+                    children: <Widget>[
+                      Column(
+                        children: const [
+                          Text(
+                            'จำนวนข้อที่ผิด',
+                            style: TextStyle(fontSize: 20.0),
+                          )
+                        ],
+                      ),
                       Column(
                         children: [
                           Text(
@@ -102,21 +93,46 @@ class _SummaryState extends State<Summary> {
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                  TableRow(
+                    children: <Widget>[
                       Column(
-                        children: [
+                        children: const [
                           Text(
-                            '${widget.data.percent}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
+                            'เปอร์เซ็นต์',
+                            style: TextStyle(fontSize: 20.0),
+                          )
                         ],
                       ),
                       Column(
                         children: [
                           Text(
-                              widget.data.exam_duration
-                                  .toString()
-                                  .substring(0, 7),
-                              style: const TextStyle(fontSize: 16)),
+                            widget.data.percent.toStringAsFixed(2) + '%',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    children: <Widget>[
+                      Column(
+                        children: const [
+                          Text(
+                            'เวลาที่ทำ',
+                            style: TextStyle(fontSize: 20.0),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            widget.data.exam_duration
+                                .toString()
+                                .substring(0, 7),
+                            style: const TextStyle(fontSize: 16),
+                          ),
                         ],
                       ),
                     ],
@@ -125,7 +141,7 @@ class _SummaryState extends State<Summary> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.all(50),
+              padding: EdgeInsets.all(70),
             ),
             Center(
               child: CircularPercentIndicator(

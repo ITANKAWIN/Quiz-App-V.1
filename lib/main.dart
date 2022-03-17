@@ -16,10 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.red,
-        fontFamily: 'Roboto',
-          scaffoldBackgroundColor: const Color.fromARGB(255, 252, 239, 239)
-      ),
+          primarySwatch: Colors.red,
+          fontFamily: 'Roboto',
+          scaffoldBackgroundColor: const Color.fromARGB(255, 252, 239, 239)),
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
@@ -48,13 +47,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("คำถาม"),
+        title: const Text("Quiz App"),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
               icon: const Icon(
                 Icons.menu,
-                // color: MyStyle.primaryColor,
               ),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
@@ -64,16 +62,35 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Main',
-              style: Theme.of(context).textTheme.headline4,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "Movie Quiz",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.blueAccent,
             ),
-          ],
-        ),
+          ),
+          const Text(
+            "Marvel Cinematic Universe",
+            style: TextStyle(
+              fontSize: 30,
+              color: Colors.white,
+              backgroundColor: Colors.red,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(10),
+          ),
+          Center(
+            child: Column(
+              children: <Widget>[
+                Image.asset('assets/images/avengers-marvel.jpg'),
+              ],
+            ),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
