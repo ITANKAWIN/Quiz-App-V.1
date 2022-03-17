@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:number_paginator/number_paginator.dart';
 import 'package:quiz/Models/QuizModel.dart';
 import 'package:quiz/Pages/Summary.dart';
 import 'package:quiz/Pages/Transactions.dart';
@@ -15,13 +16,15 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  static const countdownDuration = Duration(minutes: 1);
+  static const countdownDuration = Duration(minutes: 15);
   Duration duration = const Duration();
   Timer? timer;
+  bool start = false; //กดเริ่มตอบคำถาม
   String asset_data = '';
 
-  int no = 0;
-  final int num_quiz = 5;
+  int no_quiz = 0;
+
+  final int num_quiz = 15;
   List<int> sel_Choice = []; //คำตอบที่เลือก
   List<QuizModel> Quiz_List = []; //คำถาม
   List<String> Choice_List = []; //ตัวเลือกของคำถาม
@@ -32,14 +35,26 @@ class _QuizState extends State<Quiz> {
   String grade = 'F';
   Duration exam_duration = const Duration();
 
-  void next_question() {
-    no++;
+  // เมื่อกดปุ่มเริ่มตอบคำถาม
+  void Start_Quiz() {
+    setState(() {
+      start = true;
+      starttimer();
+    });
   }
 
+  // แสดงคำถามข้อถัดไป
+  void Next_Question(id) {
+    setState(() {
+      no_quiz = id;
+    });
+  }
+
+  // นับเวลาถอยหลัง
   void starttimer() {
     duration = countdownDuration;
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (this.mounted) {
+      if (start) {
         setState(() {
           final seconds = duration.inSeconds - 1;
 
@@ -54,6 +69,7 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  // สร้าง widget แสดงเวลาที่เหลือออกมา
   Widget buildTime() {
     String twodigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twodigits(duration.inMinutes.remainder(60));
@@ -62,8 +78,9 @@ class _QuizState extends State<Quiz> {
     return Text('$minutes:$seconds');
   }
 
+  // ตรวจคำตอบเมื่อกดส่งคำตอบ
   void check_Answer() {
-    for (int i = 0; i < Quiz_List.length; i++) {
+    for (int i = 0; i < num_quiz; i++) {
       if (Quiz_List[i].answerId == sel_Choice[i]) {
         num_correct++;
       } else {
@@ -71,7 +88,7 @@ class _QuizState extends State<Quiz> {
       }
     }
 
-    percent = num_correct * 100 / Quiz_List.length; //คำนวณเปอร์เซ็น
+    percent = num_correct * 100 / num_quiz; //คำนวณเปอร์เซ็น
 
     // คำนวณเกรด
     if (percent >= 80) {
@@ -116,15 +133,14 @@ class _QuizState extends State<Quiz> {
     );
   }
 
+  // อ่านข้อมูลคำถาม
   readJson() async {
-    if (widget.type == 'Movie') {
-      asset_data = 'assets/quiz/Movie.json';
-    } else if (widget.type == 'Series') {
-      asset_data = 'assets/quiz/Series.json';
-    } else if (widget.type == 'Music') {
-      asset_data = 'assets/quiz/Music.json';
-    } else {
-      asset_data = 'assets/quiz/Movie.json';
+    if (widget.type == 'ชุดที่ 1') {
+      asset_data = 'assets/quiz/1.json';
+    } else if (widget.type == 'ชุดที่ 2') {
+      asset_data = 'assets/quiz/2.json';
+    } else if (widget.type == 'ชุดที่ 3') {
+      asset_data = 'assets/quiz/3.json';
     }
 
     final String response = await DefaultAssetBundle.of(context)
@@ -136,6 +152,7 @@ class _QuizState extends State<Quiz> {
     random_choice();
   }
 
+  // สุ่มคำถามและตัวเลือก
   random_choice() {
     // สุ่มข้อ
     Quiz_List.shuffle();
@@ -153,7 +170,7 @@ class _QuizState extends State<Quiz> {
   void initState() {
     super.initState();
     readJson();
-    starttimer();
+    duration = countdownDuration;
   }
 
   @override
@@ -179,74 +196,133 @@ class _QuizState extends State<Quiz> {
           ),
         ],
       ),
-      body: sel_Choice.isEmpty || Quiz_List.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: num_quiz,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemBuilder: (BuildContext context, int no_quiz) {
-                      return Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              '${no_quiz + 1}.โจทย์ ${Quiz_List[no_quiz].title}',
-                              style: const TextStyle(
-                                fontSize: 30,
+      body: start
+          ? sel_Choice.isEmpty || Quiz_List.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                        itemCount: 1,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.center,
+                                child: Quiz_List[no_quiz].image != ""
+                                    ? Image.asset(
+                                        'assets/images/${Quiz_List[no_quiz].image}')
+                                    : Text(""),
                               ),
-                            ),
-                          ),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const ClampingScrollPhysics(),
-                            itemCount: Quiz_List[no_quiz].choice.length,
-                            itemBuilder: (context, no_choice) {
-                              return Column(
-                                children: [
-                                  ListTile(
-                                    leading: Radio(
-                                      value: int.parse(Quiz_List[no_quiz]
-                                          .choice[no_choice]
-                                          .id
-                                          .toString()),
-                                      groupValue: sel_Choice[no_quiz],
-                                      onChanged: (int? value) {
-                                        setState(() {
-                                          sel_Choice[no_quiz] = value!;
-                                        });
-                                      },
-                                    ),
-                                    title: Text(
-                                        '${Quiz_List[no_quiz].choice[no_choice].title}'),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  '${no_quiz + 1}.โจทย์ ${Quiz_List[no_quiz].title}',
+                                  style: const TextStyle(
+                                    fontSize: 30,
                                   ),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (context, index) => const Divider(),
+                                ),
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const ClampingScrollPhysics(),
+                                itemCount: Quiz_List[no_quiz].choice.length,
+                                itemBuilder: (context, no_choice) {
+                                  return Column(
+                                    children: [
+                                      ListTile(
+                                        leading: Radio(
+                                          value: int.parse(Quiz_List[no_quiz]
+                                              .choice[no_choice]
+                                              .id
+                                              .toString()),
+                                          groupValue: sel_Choice[no_quiz],
+                                          onChanged: (int? value) {
+                                            setState(() {
+                                              sel_Choice[no_quiz] = value!;
+                                            });
+                                          },
+                                        ),
+                                        title: Text(
+                                            '${Quiz_List[no_quiz].choice[no_choice].title}'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) => const Divider(),
+                      ),
+                    ),
+                    Center(
+                      child: NumberPaginator(
+                        numberPages: num_quiz,
+                        height: 48,
+                        onPageChange: (int id) {
+                          Next_Question(id);
+                        },
+                      ),
+                    ),
+                  ],
+                )
+          : Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.lightBlue,
+                ),
+                onPressed: () {
+                  Start_Quiz();
+                },
+                child: const Text(
+                  "Start",
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
                 ),
-              ],
+              ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          check_Answer();
-        },
-        tooltip: "ส่ง",
-        child: const Icon(Icons.send),
-      ),
+      floatingActionButton: no_quiz == num_quiz - 1
+          ? FloatingActionButton(
+              backgroundColor: const Color.fromARGB(255, 0, 143, 19),
+              hoverColor: Colors.amber,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: const Text('ต้องการส่งคำตอบของคุณหรือไม่'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('ยกเลิก'),
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.green,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            check_Answer();
+                          },
+                          child: const Text('ส่งคำตอบ'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              tooltip: "ส่งคำตอบ",
+              child: const Icon(Icons.send),
+            )
+          : const Center(),
     );
   }
 }

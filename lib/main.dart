@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
         fontFamily: 'Roboto',
+          scaffoldBackgroundColor: const Color.fromARGB(255, 252, 239, 239)
       ),
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(
@@ -101,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Icon(Icons.pages),
                   Padding(
                     padding: EdgeInsets.all(8),
-                    child: Text('Exam Movie'),
+                    child: Text('ข้อสอบชุดที่ 1'),
                   )
                 ],
               ),
@@ -109,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Quiz(type: 'Movie'),
+                    builder: (context) => const Quiz(type: 'ชุดที่ 1'),
                   ),
                 );
               },
@@ -120,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Icon(Icons.pages),
                   Padding(
                     padding: EdgeInsets.all(8),
-                    child: Text('Exam Series'),
+                    child: Text('ข้อสอบชุดที่ 2'),
                   )
                 ],
               ),
@@ -128,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Quiz(type: 'Series'),
+                    builder: (context) => const Quiz(type: 'ชุดที่ 2'),
                   ),
                 );
               },
@@ -139,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Icon(Icons.pages),
                   Padding(
                     padding: EdgeInsets.all(8),
-                    child: Text('Exam Music'),
+                    child: Text('ข้อสอบชุดที่ 3'),
                   )
                 ],
               ),
@@ -147,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Quiz(type: 'Music'),
+                    builder: (context) => const Quiz(type: 'ชุดที่ 3'),
                   ),
                 );
               },
