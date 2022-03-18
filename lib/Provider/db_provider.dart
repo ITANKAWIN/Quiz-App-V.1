@@ -3,47 +3,67 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:quiz/Pages/Transactions.dart';
+import 'package:quiz/Models/AnsModel.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
-  DBProvider._();
+  DBProvider._privateConstructor();
 
-  static final DBProvider db = DBProvider._();
+  static final DBProvider instance = DBProvider._privateConstructor();
 
-  late Database _database;
+  static Database? _database;
 
-  Future<Database> get database async {
-    if (_database != null) return _database;
-    // if _database is null we instantiate it
-    _database = await initDB();
-    return _database;
-  }
+  Future<Database> get database async => _database ??= await _initDatabase();
 
-  initDB() async {
+  Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "TestDB.db");
-    return await openDatabase(path, version: 1, onOpen: (db) {},
-        onCreate: (Database db, int version) async {
-      await db.execute('CREATE TABLE Ans(' //สร้างตารามสถานที่
-            'id INTEGER PRIMARY KEY,'
-            'time_stamp DATETIME,'
-            'num_correct INTEGER,'
-            'num_incorrect INTEGER,'
-            'percent INTEGER,'
-            'grade FLOAT,'
-            'exam_duration TEXT'
-            ')');
-    });
+    String path = join(documentsDirectory.path, "AnsDB.db");
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+    );
   }
 
-  Insert(Transactions data) async {
-    final db = await database;
-    //get the biggest id in the table
-    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Client");
-    //insert to the table using the new id
-    var raw = await db.insert('Ans', data.toMap());
-    return raw;
+  Future _onCreate(Database db, int version) async {
+    await db.execute('CREATE TABLE Ans(' //สร้างตารามสถานที่
+        'id INTEGER PRIMARY KEY,'
+        'num_quiz INTEGER,'
+        'time_stamp DATETIME,'
+        'num_correct INTEGER,'
+        'num_incorrect INTEGER,'
+        'percent INTEGER,'
+        'grade FLOAT,'
+        'exam_duration TEXT'
+        ')');
   }
 
+  Future<List> getAns() async {
+    Database db = await instance.database;
+    var ansList = await db.query('Ans', orderBy: 'time_stamp');
+
+    return ansList;
+  }
+
+  Future<List> getAnsbyID(int id) async {
+    Database db = await instance.database;
+    var ansList = await db.rawQuery('SELECT * FROM Ans WHERE id = ?', [id]);
+
+    return ansList;
+  }
+
+  Future<int> add(Ans ans) async {
+    Database db = await instance.database;
+    return await db.insert('Ans', ans.toJson());
+  }
+
+  Future<int> removebyID(int id) async {
+    Database db = await instance.database;
+    return await db.rawDelete('DELETE FROM Ans WHERE id = ?', [id]);
+  }
+
+  Future<int> removeAll() async {
+    Database db = await instance.database;
+    return await db.delete('Ans');
+  }
 }

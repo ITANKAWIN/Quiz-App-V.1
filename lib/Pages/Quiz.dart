@@ -4,19 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:quiz/Models/QuizModel.dart';
 import 'package:quiz/Pages/Summary.dart';
-import 'package:quiz/Pages/Transactions.dart';
+import 'package:quiz/Models/AnsModel.dart';
+import 'package:quiz/Provider/db_provider.dart';
 
 class Quiz extends StatefulWidget {
-  final String type;
+  final int num_quiz;
 
-  const Quiz({Key? key, required this.type}) : super(key: key);
+  const Quiz({Key? key, required this.num_quiz}) : super(key: key);
 
   @override
   State<Quiz> createState() => _QuizState();
 }
 
 class _QuizState extends State<Quiz> {
-  static const countdownDuration = Duration(minutes: 15);
+  static const countdownDuration = Duration(seconds: 10);
   Duration duration = const Duration();
   Timer? timer;
   bool start = false; //กดเริ่มตอบคำถาม
@@ -70,12 +71,12 @@ class _QuizState extends State<Quiz> {
   }
 
   // สร้าง widget แสดงเวลาที่เหลือออกมา
-  Widget buildTime() {
+  buildTime(Duration duration) {
     String twodigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twodigits(duration.inMinutes.remainder(60));
     final seconds = twodigits(duration.inSeconds.remainder(60));
 
-    return Text('$minutes:$seconds');
+    return '$minutes:$seconds';
   }
 
   // ตรวจคำตอบเมื่อกดส่งคำตอบ
@@ -117,29 +118,32 @@ class _QuizState extends State<Quiz> {
     print("เกรด $grade");
     print("เวลาที่ทำ $exam_duration");
 
-    Transactions data = Transactions(
-        time_stamp: DateTime.now(),
-        num_correct: num_correct,
-        num_incorrect: num_incorrect,
-        percent: percent,
+    Ans data = Ans(
+        numQuiz: widget.num_quiz,
+        timeStamp: DateTime.now().toString(),
+        numCorrect: num_correct,
+        numIncorrect: num_incorrect,
+        percent: percent.toStringAsFixed(2).toString(),
         grade: grade,
-        exam_duration: exam_duration);
+        examDuration: buildTime(exam_duration));
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Summary(type: widget.type, data: data),
-      ),
-    );
+    DBProvider.instance.add(data);
+
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Summary(num_quiz: widget.num_quiz, data: data),
+        ),
+        (route) => false);
   }
 
   // อ่านข้อมูลคำถาม
   readJson() async {
-    if (widget.type == 'ชุดที่ 1') {
+    if (widget.num_quiz == 1) {
       asset_data = 'assets/quiz/1.json';
-    } else if (widget.type == 'ชุดที่ 2') {
+    } else if (widget.num_quiz == 2) {
       asset_data = 'assets/quiz/2.json';
-    } else if (widget.type == 'ชุดที่ 3') {
+    } else if (widget.num_quiz == 3) {
       asset_data = 'assets/quiz/3.json';
     }
 
@@ -183,12 +187,12 @@ class _QuizState extends State<Quiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.type),
+        title: Text('ชุดที่ ${widget.num_quiz}'),
         actions: <Widget>[
           ElevatedButton.icon(
             icon: const Icon(Icons.alarm),
             onPressed: () {},
-            label: buildTime(),
+            label: Text(buildTime(duration)),
             style: ElevatedButton.styleFrom(
               elevation: 0.0,
               shadowColor: Colors.transparent,

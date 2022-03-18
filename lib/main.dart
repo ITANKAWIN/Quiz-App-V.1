@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/Pages/Quiz.dart';
-import 'package:quiz/Pages/Summary.dart';
 import 'package:quiz/Pages/SummaryAll.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -127,7 +127,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Quiz(type: 'ชุดที่ 1'),
+                    builder: (context) => const Quiz(
+                      num_quiz: 1,
+                    ),
                   ),
                 );
               },
@@ -146,7 +148,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Quiz(type: 'ชุดที่ 2'),
+                    builder: (context) => const Quiz(
+                      num_quiz: 2,
+                    ),
                   ),
                 );
               },
@@ -165,7 +169,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Quiz(type: 'ชุดที่ 3'),
+                    builder: (context) => const Quiz(
+                      num_quiz: 3,
+                    ),
                   ),
                 );
               },
