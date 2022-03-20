@@ -17,7 +17,7 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  static const countdownDuration = Duration(seconds: 10);
+  static const countdownDuration = Duration(minutes: 15);
   Duration duration = const Duration();
   Timer? timer;
   bool start = false; //กดเริ่มตอบคำถาม
@@ -120,7 +120,7 @@ class _QuizState extends State<Quiz> {
 
     Ans data = Ans(
         numQuiz: widget.num_quiz,
-        timeStamp: DateTime.now().toString(),
+        timeStamp: DateTime.now().toString().substring(0, 19),
         numCorrect: num_correct,
         numIncorrect: num_incorrect,
         percent: percent.toStringAsFixed(2).toString(),
@@ -219,7 +219,9 @@ class _QuizState extends State<Quiz> {
                                 alignment: Alignment.center,
                                 child: Quiz_List[no_quiz].image != ""
                                     ? Image.asset(
-                                        'assets/images/${Quiz_List[no_quiz].image}')
+                                        'assets/images/${Quiz_List[no_quiz].image}',
+                                        fit: BoxFit.fitWidth,
+                                      )
                                     : Text(""),
                               ),
                               Align(

@@ -400,95 +400,103 @@
         "answerID": 2
     },
     {
-        "title": "ภาพยนตร์เรื่องแรกของ Iron Man เปิดตัวในปีใดโดยเริ่มจาก Marvel Cinematic Universe",
+        "title": "ชื่อของเด็กชายตัวเล็ก ๆ ที่โทนี่ผูกมิตรในขณะที่ติดอยู่ใน Iron Man 3",
         "image": "",
         "choice": [
             {
                 "id": 1,
-                "title": "2005"
+                "title": "Harry"
             },
             {
                 "id": 2,
-                "title": "2008"
+                "title": "เฮนรี่"
             },
             {
                 "id": 3,
-                "title": "2010"
+                "title": "ฮาร์เลย์"
             },
             {
                 "id": 4,
-                "title": "2012"
+                "title": "โฮลเดน"
+            }
+        ],
+        "answerID": 3
+    },
+    {
+        "title": "Lady Sif และ Volstagg เก็บอัญมณีแห่งความจริงไว้ที่ไหนหลังจาก Dark Elves พยายามขโมยมัน",
+        "image": "",
+        "choice": [
+            {
+                "id": 1,
+                "title": "บน Vormir"
+            },
+            {
+                "id": 2,
+                "title": "อยู่ในหลุมฝังศพบน Asgard"
+            },
+            {
+                "id": 3,
+                "title": "ภายในดาบของ Sif"
+            },
+            {
+                "id": 4,
+                "title": "The collector"
+            }
+        ],
+        "answerID": 4
+    },
+    {
+        "title": "Rocket และอีก 3 คนอ้างว่าเขาต้องการอะไรเพื่อหลบหนีคุก",
+        "image": "18.gif",
+        "choice": [
+            {
+                "id": 1,
+                "title": "การ์ดรักษาความปลอดภัยส้อมและจอภาพข้อเท้า"
+            },
+            {
+                "id": 2,
+                "title": "แถบความปลอดภัยแบตเตอรี่และขาเทียม"
+            },
+            {
+                "id": 3,
+                "title": "กล้องส่องทางไกลคู่หนึ่ง detonator และขาเทียม"
+            },
+            {
+                "id": 4,
+                "title": "มีดสายไฟและเทปมิกซ์ของปีเตอร์"
+            },
+            {
+                "id": 5,
+                "title": "ช้อนกรรไกรปากกา"
             }
         ],
         "answerID": 2
     },
     {
-        "title": "ภาพยนตร์เรื่องแรกของ Iron Man เปิดตัวในปีใดโดยเริ่มจาก Marvel Cinematic Universe",
+        "title": "ใครคือน้องสาวของ Black Panther",
         "image": "",
         "choice": [
             {
                 "id": 1,
-                "title": "2005"
+                "title": "ชูริ"
             },
             {
                 "id": 2,
-                "title": "2008"
+                "title": "นาเคีย"
             },
             {
                 "id": 3,
-                "title": "2010"
+                "title": "Ramonda"
             },
             {
                 "id": 4,
-                "title": "2012"
+                "title": "Okoye"
+            },
+            {
+                "id": 5,
+                "title": "วันด้า"
             }
         ],
-        "answerID": 2
-    },
-    {
-        "title": "ภาพยนตร์เรื่องแรกของ Iron Man เปิดตัวในปีใดโดยเริ่มจาก Marvel Cinematic Universe",
-        "image": "",
-        "choice": [
-            {
-                "id": 1,
-                "title": "2005"
-            },
-            {
-                "id": 2,
-                "title": "2008"
-            },
-            {
-                "id": 3,
-                "title": "2010"
-            },
-            {
-                "id": 4,
-                "title": "2012"
-            }
-        ],
-        "answerID": 2
-    },
-    {
-        "title": "ภาพยนตร์เรื่องแรกของ Iron Man เปิดตัวในปีใดโดยเริ่มจาก Marvel Cinematic Universe",
-        "image": "",
-        "choice": [
-            {
-                "id": 1,
-                "title": "2005"
-            },
-            {
-                "id": 2,
-                "title": "2008"
-            },
-            {
-                "id": 3,
-                "title": "2010"
-            },
-            {
-                "id": 4,
-                "title": "2012"
-            }
-        ],
-        "answerID": 2
+        "answerID": 1
     }
 ]

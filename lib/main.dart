@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz/Pages/About.dart';
 import 'package:quiz/Pages/Quiz.dart';
 import 'package:quiz/Pages/SummaryAll.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MyHomePage(),
         '/summary_all': (context) => const SummaryAll(),
+        '/about': (context) => const About(),
       },
     );
   }
@@ -93,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(color: Colors.black),
@@ -113,83 +115,106 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            ListTile(
-              title: Row(
-                children: const <Widget>[
-                  Icon(Icons.pages),
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Text('ข้อสอบชุดที่ 1'),
-                  )
-                ],
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Quiz(
-                      num_quiz: 1,
+            Expanded(
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Row(
+                      children: const <Widget>[
+                        Icon(Icons.pages),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text('ข้อสอบชุดที่ 1'),
+                        )
+                      ],
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Quiz(
+                            num_quiz: 1,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: const <Widget>[
-                  Icon(Icons.pages),
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Text('ข้อสอบชุดที่ 2'),
-                  )
-                ],
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Quiz(
-                      num_quiz: 2,
+                  ListTile(
+                    title: Row(
+                      children: const <Widget>[
+                        Icon(Icons.pages),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text('ข้อสอบชุดที่ 2'),
+                        )
+                      ],
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Quiz(
+                            num_quiz: 2,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: const <Widget>[
-                  Icon(Icons.pages),
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Text('ข้อสอบชุดที่ 3'),
-                  )
-                ],
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Quiz(
-                      num_quiz: 3,
+                  ListTile(
+                    title: Row(
+                      children: const <Widget>[
+                        Icon(Icons.pages),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text('ข้อสอบชุดที่ 3'),
+                        )
+                      ],
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Quiz(
+                            num_quiz: 3,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: const <Widget>[
-                  Icon(Icons.wysiwyg),
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Text('ผลสรุป'),
-                  )
+                  ListTile(
+                    title: Row(
+                      children: const <Widget>[
+                        Icon(Icons.wysiwyg),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text('ผลสรุป'),
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/summary_all');
+                    },
+                  ),
                 ],
               ),
-              onTap: () {
-                Navigator.pushNamed(context, '/summary_all');
-              },
             ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ListTile(
+                title: Row(
+                  children: const <Widget>[
+                    Icon(Icons.help_outline),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text('เกี่ยวกับ'),
+                    )
+                  ],
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, '/about');
+                },
+              ),
+            )
           ],
         ),
       ),

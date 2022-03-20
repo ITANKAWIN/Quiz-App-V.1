@@ -10,6 +10,7 @@ String ansToJson(Ans data) => json.encode(data.toJson());
 
 class Ans {
   Ans({
+    this.id = 0,
     required this.numQuiz,
     required this.timeStamp,
     required this.numCorrect,
@@ -19,6 +20,7 @@ class Ans {
     required this.examDuration,
   });
 
+  int id;
   int numQuiz;
   String timeStamp;
   int numCorrect;
@@ -28,6 +30,7 @@ class Ans {
   String examDuration;
 
   factory Ans.fromJson(Map<String, dynamic> json) => Ans(
+        id: json["id"],
         numQuiz: json["num_quiz"],
         timeStamp: json["time_stamp"],
         numCorrect: json["num_correct"],

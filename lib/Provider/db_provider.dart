@@ -38,28 +38,56 @@ class DBProvider {
         ')');
   }
 
-  Future<List> getAns() async {
+  Future<List<Ans>> getAns() async {
     Database db = await instance.database;
-    var ansList = await db.query('Ans', orderBy: 'time_stamp');
-
+    var ans = await db.query('Ans', orderBy: 'id DESC');
+    List<Ans> ansList =
+        ans.isNotEmpty ? ans.map((a) => Ans.fromJson(a)).toList() : [];
     return ansList;
   }
 
-  Future<List> getAnsbyID(int id) async {
+  Future<List<Ans>> getAnsData() async {
     Database db = await instance.database;
-    var ansList = await db.rawQuery('SELECT * FROM Ans WHERE id = ?', [id]);
+    var ans = await db.query('Ans', orderBy: 'id ASC', limit: 5);
+    List<Ans> ansList =
+        ans.isNotEmpty ? ans.map((a) => Ans.fromJson(a)).toList() : [];
+    return ansList;
+  }
 
+  Future<List<Ans>> getAnsbyNumQuiz(int id) async {
+    Database db = await instance.database;
+    List<Map> ansList = await db.query('Ans',
+        where: 'num_quiz = ?', whereArgs: [id], orderBy: 'id');
+    // List<Ans> ans =
+    //     ansList.isNotEmpty ? ansList.map((e) => Ans.fromJson(e)).toList() : [];
+    List<Ans> ans = [];
+    if (ansList.isNotEmpty) {
+      for (int i = 0; i < ansList.length; i++) {
+        ans.add(Ans.fromJson(ansList[i] as Map<String, dynamic>));
+      }
+    }
+    return ans;
+  }
+
+  Future<List<Ans>> getAnsMax() async {
+    Database db = await instance.database;
+    var ans = await db.rawQuery('SELECT *, MAX(num_correct) FROM Ans');
+    List<Ans> ansList =
+        ans.isNotEmpty ? ans.map((a) => Ans.fromJson(a)).toList() : [];
+    return ansList;
+  }
+
+  Future<List<Ans>> getAnsMin() async {
+    Database db = await instance.database;
+    var ans = await db.rawQuery('SELECT *, MIN(num_correct) FROM Ans');
+    List<Ans> ansList =
+        ans.isNotEmpty ? ans.map((a) => Ans.fromJson(a)).toList() : [];
     return ansList;
   }
 
   Future<int> add(Ans ans) async {
     Database db = await instance.database;
     return await db.insert('Ans', ans.toJson());
-  }
-
-  Future<int> removebyID(int id) async {
-    Database db = await instance.database;
-    return await db.rawDelete('DELETE FROM Ans WHERE id = ?', [id]);
   }
 
   Future<int> removeAll() async {
