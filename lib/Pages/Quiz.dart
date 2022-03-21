@@ -227,7 +227,7 @@ class _QuizState extends State<Quiz> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  '${no_quiz + 1}.โจทย์ ${Quiz_List[no_quiz].title}',
+                                  '${no_quiz + 1}. ${Quiz_List[no_quiz].title}',
                                   style: const TextStyle(
                                     fontSize: 30,
                                   ),

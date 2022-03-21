@@ -48,7 +48,7 @@ class DBProvider {
 
   Future<List<Ans>> getAnsData() async {
     Database db = await instance.database;
-    var ans = await db.query('Ans', orderBy: 'id ASC', limit: 5);
+    var ans = await db.query('Ans', orderBy: 'id ASC');
     List<Ans> ansList =
         ans.isNotEmpty ? ans.map((a) => Ans.fromJson(a)).toList() : [];
     return ansList;

@@ -178,7 +178,7 @@ class _SummaryAllState extends State<SummaryAll> {
                     ),
             ),
             Expanded(
-              child: ans.isEmpty
+              child: ansData.isEmpty
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -194,8 +194,10 @@ class _SummaryAllState extends State<SummaryAll> {
                                     : const Color.fromARGB(255, 52, 19, 241),
                               ),
                               onPressed: () {
-                                _select = 0;
-                                _loadData();
+                                setState(() {
+                                  _select = 0;
+                                  _loadData();
+                                });
                               },
                               child: const Text('ทั้งหมด'),
                             ),
@@ -206,8 +208,10 @@ class _SummaryAllState extends State<SummaryAll> {
                                     : const Color.fromARGB(255, 52, 19, 241),
                               ),
                               onPressed: () {
-                                _select = 1;
-                                _loadData();
+                                setState(() {
+                                  _select = 1;
+                                  _loadData();
+                                });
                               },
                               child: const Text('ชุดที่ 1'),
                             ),
@@ -218,8 +222,10 @@ class _SummaryAllState extends State<SummaryAll> {
                                     : const Color.fromARGB(255, 52, 19, 241),
                               ),
                               onPressed: () {
-                                _select = 2;
+                                setState(() {
+                                  _select = 2;
                                 _loadData();
+                                });
                               },
                               child: const Text('ชุดที่ 2'),
                             ),
@@ -230,8 +236,10 @@ class _SummaryAllState extends State<SummaryAll> {
                                     : const Color.fromARGB(255, 52, 19, 241),
                               ),
                               onPressed: () {
-                                _select = 3;
+                                setState(() {
+                                  _select = 3;
                                 _loadData();
+                                });
                               },
                               child: const Text('ชุดที่ 3'),
                             ),
